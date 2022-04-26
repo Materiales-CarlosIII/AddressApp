@@ -1,10 +1,10 @@
+
 package ch.makery.address;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import ch.makery.address.MainApp;
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
 import ch.makery.address.util.DateUtil;
@@ -47,10 +47,11 @@ public class PersonOverviewController {
      * after the fxml file has been loaded.
      */
     @FXML
-    private void initialize() {
-    	// Initialize the person table with the two columns.
-        firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
-        lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+    private void initialize() {    // Initialize the person table with the two columns.
+        firstNameColumn.setCellValueFactory(
+                cellData -> cellData.getValue().firstNameProperty());
+        lastNameColumn.setCellValueFactory(
+                cellData -> cellData.getValue().lastNameProperty());
 
         // Clear person details.
         showPersonDetails(null);
@@ -71,7 +72,6 @@ public class PersonOverviewController {
         // Add observable list data to the table
         personTable.setItems(mainApp.getPersonData());
     }
-
     /**
      * Fills all text fields to show details about the person. If the specified
      * person is null, all text fields are cleared.
@@ -98,7 +98,7 @@ public class PersonOverviewController {
             birthdayLabel.setText("");
         }
     }
-    
+
     /**
      * Called when the user clicks on the delete button.
      */
@@ -114,6 +114,7 @@ public class PersonOverviewController {
             alert.setTitle("No Selection");
             alert.setHeaderText("No Person Selected");
             alert.setContentText("Please select a person in the table.");
+
             alert.showAndWait();
         }
     }
