@@ -5,6 +5,7 @@ import ch.makery.address.model.Person;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -45,21 +46,21 @@ public class MainApp extends Application {
             try {
                 myConnection = myAddressDatabase.getConnectionToDatabase();
 
+                ResultSet rs = AddressDatabase.getPersons(myConnection);
+                // ResultSet implementa iterable
+                while(rs.next()) {
+                    personData.add(new Person(
+                            // en función del tipo de dato utilizaremos el get conveniente.
+                            rs.getString("firstName"),
+                            rs.getString("lastName")
+                    ));
+                }
+
             } catch (SQLException e) {
                 System.out.println(e);
             } finally {
                 AddressDatabase.closeConnection(myConnection);
             }
-		// Add some sample data
-		personData.add(new Person("Hans", "Muster"));
-		personData.add(new Person("Ruth", "Mueller"));
-		personData.add(new Person("Heinz", "Kurz"));
-		personData.add(new Person("Cornelia", "Meier"));
-		personData.add(new Person("Werner", "Meyer"));
-		personData.add(new Person("Lydia", "Kunz"));
-		personData.add(new Person("Anna", "Best"));
-		personData.add(new Person("Stefan", "Meier"));
-		personData.add(new Person("Martin", "Mueller"));
 	}
 
 	/**

@@ -3,6 +3,8 @@ package ch.makery.address.model;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.ResultSet;
 import java.util.Properties;
 import java.util.*;
 import java.io.*;
@@ -116,6 +118,21 @@ public class AddressDatabase {
         } catch (SQLException sqle) {
             System.out.println(sqle);
         }
+    }
+
+    public static ResultSet getPersons(Connection con) throws SQLException {
+        // Consulta que vamos a realizar
+        String query = "SELECT * FROM person";
+
+        // Indicamos que vamos a lanzar una sentencia
+        // utilizando la conexión que hemos abierto previamente
+        Statement stmt = con.createStatement();
+
+        // la ejecución de la sentencia devuelve un objeto ResultSet con los datos
+        ResultSet rs = stmt.executeQuery(query);
+
+        // Devolvemos el objeto ResultSet obtenido.
+        return rs;
     }
 
 }
