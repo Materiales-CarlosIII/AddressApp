@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/model/Person.java</file>
-            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/view/DarkTheme.css</file>
-            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/PersonOverviewController.java</file>
-            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/util/DateUtil.java</file>
-            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/view/PersonEditDialog.fxml</file>
             <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/PersonEditDialogController.java</file>
             <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/MainApp.java</file>
-            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/build.xml</file>
+            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/view/DarkTheme.css</file>
+            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/properties/mysql-properties.xml</file>
+            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/util/DateUtil.java</file>
+            <file>file:/home/alumno/NetBeansProjects/git/AddressApp/src/ch/makery/address/PersonOverviewController.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,7 +1,10 @@
 package ch.makery.address;
 
+import ch.makery.address.model.AddressDatabase;
 import ch.makery.address.model.Person;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -28,6 +31,25 @@ public class MainApp extends Application {
 	 * Constructor
 	 */
 	public MainApp() {
+            AddressDatabase myAddressDatabase;
+            Connection myConnection = null;
+
+            try {
+                myAddressDatabase = new AddressDatabase();
+            } catch (Exception e) {
+                System.out.println("Problem reading properties file.");
+                e.printStackTrace();
+                return;
+            }
+
+            try {
+                myConnection = myAddressDatabase.getConnectionToDatabase();
+
+            } catch (SQLException e) {
+                System.out.println(e);
+            } finally {
+                AddressDatabase.closeConnection(myConnection);
+            }
 		// Add some sample data
 		personData.add(new Person("Hans", "Muster"));
 		personData.add(new Person("Ruth", "Mueller"));
