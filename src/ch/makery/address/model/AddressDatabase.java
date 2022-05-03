@@ -192,5 +192,18 @@ public class AddressDatabase {
 
         return (rowAffected == 1);
     }
+    
+    public static boolean deletePerson(Connection con, Person p) throws SQLException {
+        String sqlDelete = "DELETE FROM person "
+                + "WHERE id = ?";
+
+        PreparedStatement pstmt = con.prepareStatement(sqlDelete);
+
+        pstmt.setInt(1, p.getId());
+
+        int rowAffected = pstmt.executeUpdate();
+
+        return (rowAffected == 1);
+    }
 
 }

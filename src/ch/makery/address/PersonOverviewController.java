@@ -107,9 +107,32 @@ public class PersonOverviewController {
      */
     @FXML
     private void handleDeletePerson() {
-        int selectedIndex = personTable.getSelectionModel().getSelectedIndex();
-        if (selectedIndex >= 0) {
-            personTable.getItems().remove(selectedIndex);
+        Person selectedPerson = personTable.getSelectionModel().getSelectedItem();
+        if (selectedPerson != null) {
+
+            AddressDatabase myAddressDatabase;
+            Connection myConnection = null;
+
+            try {
+                myAddressDatabase = new AddressDatabase();
+            } catch (Exception e) {
+                System.out.println("Problem reading properties file.");
+                e.printStackTrace();
+                return;
+            }
+
+            try {
+                myConnection = myAddressDatabase.getConnectionToDatabase();
+                boolean deleted = AddressDatabase.deletePerson(myConnection, selectedPerson);
+                if (deleted) {
+                    personTable.getItems().remove(selectedPerson);
+                }
+
+            } catch (SQLException e) {
+                System.out.println(e);
+            } finally {
+                AddressDatabase.closeConnection(myConnection);
+            }
         } else {
             // Nothing selected.
             Alert alert = new Alert(AlertType.WARNING);
