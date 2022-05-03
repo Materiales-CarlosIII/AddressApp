@@ -165,5 +165,32 @@ public class AddressDatabase {
         }
         return personId;
     }
+    
+    public static boolean updatePerson(Connection con, Person p) throws SQLException {
+        String sqlUpdate = "UPDATE person "
+                + "SET "
+                + " firstName = ?,"
+                + " lastName = ?,"
+                + " street = ?,"
+                + " postalCode = ?,"
+                + " city = ?,"
+                + " birthday = ? "
+                + "WHERE id = ?";
+
+        PreparedStatement pstmt = con.prepareStatement(sqlUpdate);
+
+        // set parameters for statement
+        pstmt.setString(1, p.getFirstName());
+        pstmt.setString(2, p.getLastName());
+        pstmt.setString(3, p.getStreet());
+        pstmt.setInt(4, p.getPostalCode());
+        pstmt.setString(5, p.getCity());
+        pstmt.setDate(6, java.sql.Date.valueOf(p.getBirthday()));
+        pstmt.setInt(7, p.getId());
+
+        int rowAffected = pstmt.executeUpdate();
+
+        return (rowAffected == 1);
+    }
 
 }

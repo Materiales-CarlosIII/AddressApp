@@ -51,6 +51,7 @@ public class MainApp extends Application {
                 while(rs.next()) {
                     personData.add(new Person(
                             // en función del tipo de dato utilizaremos el get conveniente.
+                            rs.getInt("id"),
                             rs.getString("firstName"),
                             rs.getString("lastName")
                     ));

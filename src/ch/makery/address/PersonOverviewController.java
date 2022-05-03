@@ -131,7 +131,6 @@ public class PersonOverviewController {
         Person tempPerson = new Person();
         boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
         if (okClicked) {
-            mainApp.getPersonData().add(tempPerson);
             
             AddressDatabase myAddressDatabase;
             Connection myConnection = null;
@@ -147,6 +146,8 @@ public class PersonOverviewController {
             try {
                 myConnection = myAddressDatabase.getConnectionToDatabase();
                 int personId = AddressDatabase.newPerson(myConnection, tempPerson);
+                tempPerson.setId(personId);
+                mainApp.getPersonData().add(tempPerson);
             
             } catch (SQLException e) {
                 System.out.println(e);
@@ -167,6 +168,27 @@ public class PersonOverviewController {
         if (selectedPerson != null) {
             boolean okClicked = mainApp.showPersonEditDialog(selectedPerson);
             if (okClicked) {
+                AddressDatabase myAddressDatabase;
+                Connection myConnection = null;
+
+                try {
+                    myAddressDatabase = new AddressDatabase();
+                } catch (Exception e) {
+                    System.out.println("Problem reading properties file.");
+                    e.printStackTrace();
+                    return;
+                }
+
+                try {
+                    myConnection = myAddressDatabase.getConnectionToDatabase();
+                    AddressDatabase.updatePerson(myConnection, selectedPerson);
+
+                } catch (SQLException e) {
+                    System.out.println(e);
+                } finally {
+                    AddressDatabase.closeConnection(myConnection);
+                }
+
                 showPersonDetails(selectedPerson);
             }
 
