@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 import java.util.Properties;
 import java.util.*;
 import java.io.*;
@@ -134,5 +135,32 @@ public class AddressDatabase {
         // Devolvemos el objeto ResultSet obtenido.
         return rs;
     }
+    
+    public static int newPerson(Connection con, Person p) throws SQLException {
+        String sql = "INSERT INTO person(firstName, lastName, street, postalCode, city, birthday) "
+                + "VALUES(?, ?, ?, ?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(sql,
+                Statement.RETURN_GENERATED_KEYS);
+
+        // set parameters for statement
+        pstmt.setString(1, p.getFirstName());
+        pstmt.setString(2, p.getLastName());
+        pstmt.setString(3, p.getStreet());
+        pstmt.setInt(4, p.getPostalCode());
+        pstmt.setString(5, p.getCity());
+        pstmt.setDate(6, java.sql.Date.valueOf(p.getBirthday()));
+
+        int rowAffected = pstmt.executeUpdate();
+
+        int personId = -1;
+        if (rowAffected == 1) {
+                       // get person id
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                personId = rs.getInt(1);
+            }
+        }
+        return personId;
+    }    
 
 }

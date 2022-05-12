@@ -7,9 +7,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import ch.makery.address.MainApp;
 import ch.makery.address.model.Person;
+import ch.makery.address.model.AddressDatabase;
 import ch.makery.address.util.DateUtil;
+import java.io.IOException;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PersonOverviewController {
     @FXML
@@ -129,6 +135,27 @@ public class PersonOverviewController {
         boolean okClicked = mainApp.showPersonEditDialog(tempPerson);
         if (okClicked) {
             mainApp.getPersonData().add(tempPerson);
+
+            AddressDatabase myAddressDatabase;
+            Connection myConnection = null;
+            
+            try {
+                myAddressDatabase = new AddressDatabase();
+            } catch (IOException e) {
+                System.out.println("Problem reading properties file.");
+                e.printStackTrace();
+                return;
+            }
+            
+            try {
+                myConnection = myAddressDatabase.getConnectionToDatabase();
+                int personId = AddressDatabase.newPerson(myConnection, tempPerson);
+            
+            } catch (SQLException e) {
+                System.out.println(e);
+            } finally {
+                AddressDatabase.closeConnection(myConnection);
+            }
         }
     }
 
