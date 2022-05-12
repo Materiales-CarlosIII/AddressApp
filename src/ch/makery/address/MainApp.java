@@ -1,6 +1,7 @@
 package ch.makery.address;
 
 import ch.makery.address.model.Person;
+import ch.makery.address.model.AddressDatabase;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -13,6 +14,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.ResultSet;
 
 public class MainApp extends Application {
 
@@ -27,18 +31,36 @@ public class MainApp extends Application {
 	/**
 	 * Constructor
 	 */
-	public MainApp() {
-		// Add some sample data
-		personData.add(new Person("Hans", "Muster"));
-		personData.add(new Person("Ruth", "Mueller"));
-		personData.add(new Person("Heinz", "Kurz"));
-		personData.add(new Person("Cornelia", "Meier"));
-		personData.add(new Person("Werner", "Meyer"));
-		personData.add(new Person("Lydia", "Kunz"));
-		personData.add(new Person("Anna", "Best"));
-		personData.add(new Person("Stefan", "Meier"));
-		personData.add(new Person("Martin", "Mueller"));
-	}
+    public MainApp() {
+        AddressDatabase myAddressDatabase;
+        Connection myConnection = null;
+
+        try {
+            myAddressDatabase = new AddressDatabase();
+        } catch (Exception e) {
+            System.out.println("Problem reading properties file.");
+            e.printStackTrace();
+            return;
+        }
+
+        try {
+            myConnection = myAddressDatabase.getConnectionToDatabase();
+            ResultSet rs = AddressDatabase.getPersons(myConnection);
+            while(rs.next()) {
+                    personData.add(new Person(
+                            // en función del tipo de dato utilizaremos el get conveniente.
+                            rs.getString("firstName"),
+                            rs.getString("lastName")
+                    ));
+                }
+
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            AddressDatabase.closeConnection(myConnection);
+        }
+
+    }
 
 	/**
 	 * Returns the data as an observable list of Persons.
