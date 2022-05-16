@@ -16,7 +16,8 @@ import javafx.beans.property.StringProperty;
  */
 public class Person {
 
-	private final StringProperty firstName;
+        private final IntegerProperty id;
+        private final StringProperty firstName;
 	private final StringProperty lastName;
 	private final StringProperty street;
 	private final IntegerProperty postalCode;
@@ -27,7 +28,7 @@ public class Person {
 	 * Default constructor.
 	 */
 	public Person() {
-		this(null, null);
+		this(0, null, null);
 	}
 	
 	/**
@@ -36,7 +37,8 @@ public class Person {
 	 * @param firstName
 	 * @param lastName
 	 */
-	public Person(String firstName, String lastName) {
+	public Person(Integer id, String firstName, String lastName) {
+                this.id = new SimpleIntegerProperty(id);
 		this.firstName = new SimpleStringProperty(firstName);
 		this.lastName = new SimpleStringProperty(lastName);
 		
@@ -47,6 +49,14 @@ public class Person {
 		this.birthday = new SimpleObjectProperty<LocalDate>(LocalDate.of(1999, 2, 21));
 	}
 	
+	public Integer getId() {
+		return id.get();
+	}
+
+	public void setId(Integer id) {
+		this.id.set(id);
+	}
+
 	public String getFirstName() {
 		return firstName.get();
 	}
